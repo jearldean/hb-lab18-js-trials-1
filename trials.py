@@ -1,5 +1,9 @@
 """Python functions for JavaScript Trials 1."""
 
+""" To test this code, run:
+python3 -m doctest trials.py
+"""
+
 
 def output_all_items(items):
     """
@@ -161,16 +165,29 @@ def compress(string):
     """
     compressed = []
 
+    curr_char = ""
+    char_count = 0
     for char in string:
-        charCount = 0
-        if not compressed:
-            continue
-        if char != compressed[-1]:
-            compressed.append[char]
-        if char == compressed[-1]:
-            # repeating
-            charCount += 1
-        if charCount > 1:
-            compressed.append[str(charCount)]
+        if char != curr_char:  # Next character is different.
+            compressed.append(curr_char)  # Chain it to the answer.
 
+            # Take care of any business regarding the PREVIOUS repeater:
+            if char_count > 1:
+                compressed.append(str(char_count))
+
+            curr_char = char  # update this.
+            char_count = 0  # reset this.
+
+        # Repeating char:
+        # Add one to the count. We don't know how many repeats there will be.
+        char_count += 1
+
+    # If you have a new letter, chain it to the answer:
+    compressed.append(curr_char)
+
+    # If you have a count, instead of a letter, chain it to the answer now:
+    if char_count > 1:
+         compressed.append(str(char_count))
+
+    # Present the answer:
     return "".join(compressed)
